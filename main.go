@@ -54,10 +54,10 @@ func main() {
 	// Register all routes
 	router.SetRouter(server)
 
-	// Determine port
+	// Determine port - default changed to 8080 to avoid conflicts with other local services
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = "3000"
+		port = "8080"
 	}
 
 	common.SysLog(fmt.Sprintf("Server listening on port %s", port))
