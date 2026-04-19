@@ -66,9 +66,10 @@ func main() {
 	// Start server - always bind to all interfaces so Docker/remote access works
 	// Previously defaulted to 127.0.0.1 for local dev, but this caused issues
 	// when running inside containers. Override with HOST env var if needed.
+	// Defaulting to localhost for local dev; set HOST=0.0.0.0 when deploying.
 	host := os.Getenv("HOST")
 	if host == "" {
-		host = "0.0.0.0"
+		host = "127.0.0.1"
 	}
 
 	err = server.Run(host + ":" + port)
