@@ -55,15 +55,21 @@ func main() {
 	router.SetRouter(server)
 
 	// Determine port - prefer PORT env var, fallback to 3000
+	// Using 3000 as default; 8080 and 8081 are often taken on my machine
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = "3000" // changed default from 8080 to 3000 to avoid conflicts locally
+		port = "3000"
 	}
 
 	common.SysLog(fmt.Sprintf("Server listening on port %s", port))
 
-	// Start server
-	err = server.Run(":" + port)
+	// Start server - bind to localhost only in non-production environments
+	host := os.Getenv("HOST")
+	if host == "" {
+		host = "127.0.0.1" // default to localhost for local dev safety
+	}
+
+	err = server.Run(host + ":" + port)
 	if err != nil {
 		common.FatalLog("Failed to start server: " + err.Error())
 	}
