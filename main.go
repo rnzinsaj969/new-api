@@ -54,11 +54,11 @@ func main() {
 	// Register all routes
 	router.SetRouter(server)
 
-	// Determine port - prefer PORT env var, fallback to 8080
-	// Note: changed back to 8080 (more conventional default for Go web services)
+	// Determine port - prefer PORT env var, fallback to 3000
+	// Using 3000 as default since I usually run other services on 8080 locally
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = "8080"
+		port = "3000"
 	}
 
 	common.SysLog(fmt.Sprintf("Server listening on port %s", port))
