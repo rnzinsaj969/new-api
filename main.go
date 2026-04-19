@@ -57,7 +57,7 @@ func main() {
 	// Determine port - prefer PORT env var, fallback to 3000
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = "8080"
+		port = "3000" // changed default from 8080 to 3000 to avoid conflicts locally
 	}
 
 	common.SysLog(fmt.Sprintf("Server listening on port %s", port))
