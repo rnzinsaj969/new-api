@@ -63,10 +63,14 @@ func main() {
 
 	common.SysLog(fmt.Sprintf("Server listening on port %s", port))
 
-	// Start server - bind to localhost only in non-production environments
+	// Start server - bind to all interfaces in production, localhost otherwise
 	host := os.Getenv("HOST")
 	if host == "" {
-		host = "127.0.0.1" // default to localhost for local dev safety
+		if os.Getenv("GIN_MODE") == "release" {
+			host = "0.0.0.0"
+		} else {
+			host = "127.0.0.1" // default to localhost for local dev safety
+		}
 	}
 
 	err = server.Run(host + ":" + port)
