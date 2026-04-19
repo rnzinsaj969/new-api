@@ -63,14 +63,12 @@ func main() {
 
 	common.SysLog(fmt.Sprintf("Server listening on port %s", port))
 
-	// Start server - bind to all interfaces in production, localhost otherwise
+	// Start server - always bind to all interfaces so Docker/remote access works
+	// Previously defaulted to 127.0.0.1 for local dev, but this caused issues
+	// when running inside containers. Override with HOST env var if needed.
 	host := os.Getenv("HOST")
 	if host == "" {
-		if os.Getenv("GIN_MODE") == "release" {
-			host = "0.0.0.0"
-		} else {
-			host = "127.0.0.1" // default to localhost for local dev safety
-		}
+		host = "0.0.0.0"
 	}
 
 	err = server.Run(host + ":" + port)
