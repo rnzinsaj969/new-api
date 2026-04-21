@@ -64,12 +64,12 @@ func main() {
 	common.SysLog(fmt.Sprintf("Server listening on port %s", port))
 
 	// Start server - bind address controlled by HOST env var.
-	// Default to 0.0.0.0 so the server is reachable inside Docker and on
-	// the local network without extra config. Set HOST=127.0.0.1 to
-	// restrict to loopback only (e.g. when sitting behind a reverse proxy).
+	// Default to 127.0.0.1 for safety when running locally without Docker.
+	// Set HOST=0.0.0.0 to expose on all interfaces (e.g. inside Docker or
+	// when running behind a reverse proxy on another machine).
 	host := os.Getenv("HOST")
 	if host == "" {
-		host = "0.0.0.0"
+		host = "127.0.0.1"
 	}
 
 	err = server.Run(host + ":" + port)
